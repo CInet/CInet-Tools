@@ -1,0 +1,45 @@
+#!/usr/bin/env perl
+
+use Modern::Perl 2018;
+
+use Reply;
+use Reply::Config;
+
+use Path::Tiny;
+
+sub xdg {
+    # Silence given/when experimental warning from File::XDG
+    local $SIG{__WARN__} = sub { warn($@) unless $_[0] =~ /(?:given|when) is experimental/ };
+    require File::XDG;
+    state $xdg = File::XDG->new(name => 'CImake')
+}
+
+sub config {
+    state $config = do {
+        my $config = path(''. xdg->config_home);
+        $config->mkpath;
+        $config
+    }
+}
+
+# Prepare a configuration object with some sensible defaults
+# for all the plugins we load below.
+#my $replyrc = Reply::Config->new(file => config->child('replyrc'));
+#$replyrc->data->{}
+
+my $reply = Reply->new(
+    config => ''. config->child('replyrc')->touch,
+    # Default selection of plugins for quality of life
+    plugins => [
+        'SuppressPrint', # must be first to work
+        'FancyPrompt',
+        'Colors', 'Interrupt', 'Pager', 'ReadLine',
+        'Hints', 'LexicalPersistence', 'ResultCache',
+        'Autocomplete::Functions','Autocomplete::Keywords',
+        'Autocomplete::Lexicals', 'Autocomplete::Methods',
+        'Autocomplete::Packages',
+    ],
+);
+
+$reply->step(q[use CInet::Tools;]);
+$reply->run;
