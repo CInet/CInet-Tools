@@ -2,6 +2,7 @@
 
 use Modern::Perl 2018;
 
+use open qw(:std :utf8);
 use Reply;
 use Reply::Config;
 
@@ -32,14 +33,16 @@ my $reply = Reply->new(
     # Default selection of plugins for quality of life
     plugins => [
         'SuppressPrint', # must be first to work
-        'FancyPrompt',
-        'Colors', 'Interrupt', 'Pager', 'ReadLine',
-        'Hints', 'LexicalPersistence', 'ResultCache',
+        'Timing',
+        'FancyPrompt', 'ReadLine',
+        'Colors', 'Interrupt', #'Pager',
+        'Hints', 'LexicalPersistence', #'ResultCache',
+        'DataDump',
         'Autocomplete::Functions','Autocomplete::Keywords',
         'Autocomplete::Lexicals', 'Autocomplete::Methods',
         'Autocomplete::Packages',
     ],
 );
 
-$reply->step(q[use CInet::Tools;]);
+$reply->step(q[use CInet::Tools;;]);
 $reply->run;

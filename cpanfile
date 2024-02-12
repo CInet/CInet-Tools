@@ -6,6 +6,9 @@ requires 'Term::ANSIColor';
 requires 'Term::ReadLine::Gnu';
 requires 'File::XDG';
 requires 'B::Keywords';
+requires 'Memory::Usage';
+requires 'Time::HiRes';
+requires 'Number::Bytes::Human';
 
 requires 'CInet::Base';
 requires 'CInet::ManySAT';
