@@ -44,5 +44,5 @@ my $reply = Reply->new(
     ],
 );
 
-$reply->step(q[use Modern::Perl 2018; use CInet::Tools;;]);
+$reply->step(q[use Modern::Perl 2018;; use CInet::Tools;;]);
 $reply->run;

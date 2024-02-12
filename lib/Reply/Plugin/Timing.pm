@@ -43,19 +43,26 @@ sub execute {
 
     #my $rss_diff = $mu->state->[1][3] - $mu->state->[0][3];
     my $time_diff = $end - $start;
-    my $mins = int($time_diff / 60);
-    my $secs = $time_diff - 60*$mins;
-    $self->{+TIMING_KEY} = sprintf "# time=%02d:%05.2f", $mins, $secs;
-    #$self->{+TIMING_KEY} = sprintf "# time=%02d:%05.2f, Δrss=%s",
-    #    $mins, $secs,
-    #    format_bytes($rss_diff * 1024, bs => 1024, si => 1);
+    delete $self->{+TIMING_KEY};
+    unless ($time_diff < 0.01) {
+        my $mins = int($time_diff / 60);
+        my $secs = $time_diff - 60*$mins;
+        $self->{+TIMING_KEY} = sprintf "# time=%02d:%05.2f", $mins, $secs;
+        #$self->{+TIMING_KEY} = sprintf "# time=%02d:%05.2f, Δrss=%s",
+        #    $mins, $secs,
+        #    format_bytes($rss_diff * 1024, bs => 1024, si => 1);
+    }
     @res
 }
 
 sub print_result {
     my $self = shift;
     my $next = shift;
-    $next->(@_, (0+ @_ ? ' ' : '') . $self->{+TIMING_KEY});
+    my @timing;
+    if (exists $self->{+TIMING_KEY}) {
+        push @timing, (0+ @_ ? ' ' : '') . $self->{+TIMING_KEY};
+    }
+    $next->(@_, @timing)
 }
 
 =head1 AUTHOR
