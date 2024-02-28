@@ -9,6 +9,7 @@ requires 'B::Keywords';
 requires 'Memory::Usage';
 requires 'Time::HiRes';
 requires 'Number::Bytes::Human';
+requires 'Data::Dump';
 
 requires 'CInet::Base';
 requires 'CInet::ManySAT';
