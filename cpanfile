@@ -1,15 +1,15 @@
 requires 'Modern::Perl', '>= 1.20180000';
 
-requires 'Reply';
-requires 'IO::Pager';
-requires 'Term::ANSIColor';
-requires 'Term::ReadLine::Gnu';
-requires 'File::XDG';
-requires 'B::Keywords';
-requires 'Memory::Usage';
-requires 'Time::HiRes';
-requires 'Number::Bytes::Human';
+requires 'PPI::XS';
+requires 'PPI';
+requires 'Data::Dumper::Concise';
 requires 'Data::Dump';
+requires 'File::Next';
+requires 'B::Keywords';
+requires 'Lexical::Persistence';
+requires 'Time::HiRes';
+requires 'Sys::SigAction';
+requires 'Devel::REPL';
 
 requires 'CInet::Base';
 requires 'CInet::ManySAT';

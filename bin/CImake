@@ -3,8 +3,7 @@
 use Modern::Perl 2018;
 
 use open qw(:std :utf8);
-use Reply;
-use Reply::Config;
+use Devel::REPL::Script;
 
 use Path::Tiny;
 
@@ -15,34 +14,18 @@ sub xdg {
     state $xdg = File::XDG->new(name => 'CImake')
 }
 
-sub config {
+sub config_file {
     state $config = do {
         my $config = path(''. xdg->config_home);
         $config->mkpath;
         $config
-    }
+    };
+    $config->child('repl.rc')
 }
 
-# Prepare a configuration object with some sensible defaults
-# for all the plugins we load below.
-#my $replyrc = Reply::Config->new(file => config->child('replyrc'));
-#$replyrc->data->{}
-
-my $reply = Reply->new(
-    config => ''. config->child('replyrc')->touch,
-    # Default selection of plugins for quality of life
-    plugins => [
-        'SuppressPrint', # must be first to work
-        'Timing',
-        'FancyPrompt', 'ReadLine',
-        'Colors', 'Interrupt', #'Pager',
-        'Hints', 'LexicalPersistence', #'ResultCache',
-        'DataDump',
-        #'Autocomplete::Functions','Autocomplete::Keywords',
-        #'Autocomplete::Lexicals', 'Autocomplete::Methods',
-        #'Autocomplete::Packages',
-    ],
+my $repl = Devel::REPL::Script->new(
+    rcfile => "". config_file,
+    profile => $ENV{DEVEL_REPL_PROFILE} || 'CInet',
 );
 
-$reply->step(q[use Modern::Perl 2018;; use CInet::Tools;;]);
-$reply->run;
+$repl->run;
