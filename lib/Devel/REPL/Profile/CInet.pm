@@ -39,8 +39,8 @@ sub apply_profile {
     $repl->eval(q[use Modern::Perl 2018;;]);
     $repl->eval(q[use CInet::Tools;;]);
     # Macaulay2 style recent results
-    $repl->eval(q[sub oo  { $_REPL->output_cache->[-1] };;]);
-    $repl->eval(q[sub ooo { $_REPL->output_cache->[-2] };;]);
+    $repl->eval(q[sub oo  :prototype() { $_REPL->output_cache->[-1] };;]);
+    $repl->eval(q[sub ooo :prototype() { $_REPL->output_cache->[-2] };;]);
 }
 
 ":wq"
